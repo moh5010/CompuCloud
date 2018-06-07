@@ -18,4 +18,13 @@
          return new TemplateResponse('ownnotes', 'computers');
      }
 
+     /**
+      * @NoAdminRequired
+      * @NoCSRFRequired
+      */
+     public function add($computer_name, $computer_model, $computer_cpu, $computer_ram, $computer_hard, $computer_price) {
+       return $computer_price;
+         //return new TemplateResponse('ownnotes', 'computers');
+     }
+
  }
