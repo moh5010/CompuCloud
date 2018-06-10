@@ -4,14 +4,15 @@ namespace OCA\OwnNotes\Db;
 use JsonSerializable;
 use OCP\AppFramework\Db\Entity;
 
-class Computer extends Entity implements JsonSerializable {
+class Computer extends Entity {
 
-    protected $computer_name;
-    protected $computer_model;
-    protected $computer_cpu;
-    protected $computer_ram;
-    protected $computer_hard;
-    protected $computer_price;
+    protected $computerCompany;
+    protected $computerModel;
+    protected $cpu;
+    protected $ram;
+    protected $hardCapacity;
+    protected $image;
+    protected $price;
     protected $userId;
 
     /*public function jsonSerialize() {
