@@ -7,10 +7,16 @@
  ?>
 <h6>welcom for our  campany</h6>
 <br><br><br>
-<div class="computers">
+<div class="container">
   <?php
-  for ($i=0; $i < count($_["computers"]); $i++) {
-    print_unescaped($this->inc('computer.inc', array('computer' => $_["computers"][$i])));
+  foreach (array_chunk($_["computers"], 4, true) as $computers) {
+    echo "<div class='row'>";
+    foreach($computers as $computer) {
+      echo "<div class='col-md'";
+      print_unescaped($this->inc('computer.inc', array('computer' => $computer)));
+      echo "</div>";
+    }
+    echo "</div>";
   }
    ?>
 </div>
@@ -30,7 +36,7 @@
       </div>
         <div class="modal-body">
 
-          <form method="POST" action="computers" id="computer_form">
+          <form method="POST" action="computers" id="computer_form" enctype="multipart/form-data">
             <div class="form-group">
             <label for="computer_name">computer_name:</label>
             <input name="computer_name" id="computer_name" type="text" required class="form-control" placeholder="entre name">
@@ -45,6 +51,8 @@
             <input name="computer_hard" class="form-control" type="number" required placeholder="entre hard">
             <label>computer_price:</label>
             <input name="computer_price" class="form-control" type="number" required placeholder="entre price">
+            <label>image:</label>
+            <input name="computer_image" class="form-control" type="file" required placeholder="Select Image">
 
           </div>
             <input type="submit" name="OK"value="OK">

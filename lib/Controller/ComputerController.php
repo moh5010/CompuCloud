@@ -8,11 +8,13 @@
 
  use OCA\OwnNotes\Db\Computer;
  use OCA\OwnNotes\Db\ComputerMapper;
+ use OCA\OwnNotes\Storage\AuthorStorage;
 
  class ComputerController extends Controller {
 
      private $mapper;
      private $userId;
+     private $storage;
 
      public function __construct($AppName, IRequest $request, ComputerMapper $mapper, $UserId){
          parent::__construct($AppName, $request);
@@ -33,7 +35,7 @@
       * @NoAdminRequired
       * @NoCSRFRequired
       */
-     public function add($computer_name, $computer_model, $computer_cpu, $computer_ram, $computer_hard, $computer_price) {
+     public function add($computer_name, $computer_model, $computer_cpu, $computer_ram, $computer_hard, $computer_price, $computer_image) {
        $computer = new Computer();
 
        $computer->setComputerCompany($computer_name);
@@ -42,7 +44,9 @@
        $computer->setRam($computer_ram);
        $computer->setHardCapacity($computer_hard);
        $computer->setPrice($computer_price);
+       $computer->setImage($computer_image);
        $id = $this->mapper->insert($computer);
+
        return new TemplateResponse('ownnotes', 'computers', array('id' => $id ));
      }
 

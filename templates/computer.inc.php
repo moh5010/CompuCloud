@@ -3,5 +3,4 @@
   <p>Model: <?php p($_["computer"]->getComputerModel()) ?></p>
   <p>CPU: <?php p($_["computer"]->getCpu()) ?></p>
   <p>RAM: <?php p($_["computer"]->getRam()) ?></p>
-  <p>Hard: <?php p($_["computer"]->gethardCapacity()) ?></p>
 </div>

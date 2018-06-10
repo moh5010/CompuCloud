@@ -3,6 +3,7 @@ namespace OCA\OwnNotes\AppInfo;
 
 use \OCP\AppFramework\App;
 use \OCA\OwnNotes\Controller\PageController;
+use \OCA\OwnNotes\Storage\AuthorStorage;
 
 class Application extends App {
     public function __construct(array $urlParams=array()){
@@ -15,5 +16,13 @@ class Application extends App {
                 $c->query('Request')
             );
         });
+        $container->registerService('AuthorStorage', function($c) {
+            return new AuthorStorage($c->query('RootStorage'));
+        });
+
+        $container->registerService('RootStorage', function($c) {
+            return $c->query('ServerContainer')->getRootFolder();
+        });
+
     }
 }
