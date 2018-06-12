@@ -7,22 +7,41 @@
  ?>
 <h6>welcom for our  campany</h6>
 <br><br><br>
-<div class="container">
-  <?php
-  foreach (array_chunk($_["computers"], 4, true) as $computers) {
-    echo "<div class='row'>";
-    foreach($computers as $computer) {
-      echo "<div class='col-md'";
-      print_unescaped($this->inc('computer.inc', array('computer' => $computer)));
-      echo "</div>";
+<?php
+  if ($_["message"]) {
+    if ($_["warn"]) {
+      echo "<div class='alert alert-danger' role='alert'>";
     }
+    else {
+      echo "<div class='alert alert-primary' role='alert'>";
+    }
+
+    p($_["message"]);
     echo "</div>";
   }
-   ?>
-</div>
+
+
+ ?>
+<div style="margin: 10px">
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-  New Computer
+New Computer
 </button>
+</div>
+  <?php
+  for ($i=0; $i < count($_["computers"]); $i++) {
+    if ($i % 4 == 0) {
+      ?>
+      <div class="row">
+      <?php
+    }
+    echo "<div class='col-md-3'>";
+    print_unescaped($this->inc('computer.inc', array('computer' => $_["computers"][$i])));
+    echo "</div>";
+    if($i % 4 == 3) {
+      echo "</div>";
+    }
+  }
+   ?>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

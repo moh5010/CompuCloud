@@ -4,6 +4,7 @@
  use OCP\IRequest;
  use OCP\AppFramework\Http\TemplateResponse;
  use OCP\AppFramework\Http\DataResponse;
+ use OCP\AppFramework\Http\RedirectResponse;
  use OCP\AppFramework\Controller;
 
  use OCA\OwnNotes\Db\Computer;
@@ -26,9 +27,9 @@
       * @NoAdminRequired
       * @NoCSRFRequired
       */
-     public function index() {
+     public function index($message, $warn) {
          $coms = $this->mapper->findAll();
-         return new TemplateResponse('ownnotes', 'computers', array("computers" => $coms));
+         return new TemplateResponse('ownnotes', 'computers', array("computers" => $coms, "message" => $message, "warn" => $warn));
      }
 
      /**
@@ -45,9 +46,29 @@
        $computer->setHardCapacity($computer_hard);
        $computer->setPrice($computer_price);
        $computer->setImage($computer_image);
+       $computer->setSold(False);
        $id = $this->mapper->insert($computer);
 
-       return new TemplateResponse('ownnotes', 'computers', array('id' => $id ));
+       return new RedirectResponse("/apps/ownnotes/computers?message=Computer added");
+     }
+
+     /**
+      * @NoAdminRequired
+      * @NoCSRFRequired
+      */
+     public function buy($id) {
+         $computers = $this->mapper->findById($id);
+         if (count($computers) == 0) {
+           return new RedirectResponse("/apps/ownnotes/computers");
+         }
+         $computer = $computers[0];
+         if ($computer->getSold() == true) {
+           return new RedirectResponse("/apps/ownnotes/computers?message=Computer Alread Sold&warn=true");
+         }
+         $computer->setUserId($this->userId);
+         $computer->setSold(true);
+         $this->mapper->update($computer);
+         return new RedirectResponse("/apps/ownnotes/computers?message=You bought this computer");
      }
 
  }

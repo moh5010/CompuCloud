@@ -15,4 +15,9 @@ class ComputerMapper extends Mapper {
         return $this->findEntities($sql);
     }
 
+    public function findById($id) {
+      $sql = "SELECT * from *PREFIX*computers WHERE id=?";
+      return $this->findEntities($sql, [$id]);
+    }
+
 }

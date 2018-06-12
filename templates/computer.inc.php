@@ -1,6 +1,23 @@
-<div class="computer">
-  <p>Company: <?php p($_["computer"]->getComputerCompany()) ?></p>
-  <p>Model: <?php p($_["computer"]->getComputerModel()) ?></p>
-  <p>CPU: <?php p($_["computer"]->getCpu()) ?></p>
-  <p>RAM: <?php p($_["computer"]->getRam()) ?></p>
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title"><?php p($_["computer"]->getComputerCompany()) ?></h5>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">Model: <?php p($_["computer"]->getComputerModel()) ?></li>
+      <li class="list-group-item">CPU: <?php p($_["computer"]->getCpu()) ?></li>
+      <li class="list-group-item">RAM: <?php p($_["computer"]->getRam()) ?>GB</li>
+      <li class="list-group-item">Hard: <?php p($_["computer"]->getHardCapacity()) ?>GB</li>
+      <li class="list-group-item">Price: <?php p($_["computer"]->getPrice()) ?>$</li>
+    </ul>
+    <?php if ($_["computer"]->getSold()) {
+      ?>
+      <a href="computers/buy/<?php p($_['computer']->getId()) ?>" class="btn btn-danger">Buy</a>
+    <?php }
+      else {
+        ?>
+        <a href="computers/buy/<?php p($_['computer']->getId()) ?>" class="btn btn-secondary">Buy</a>
+        <?php
+      }
+    ?>
+
+  </div>
 </div>
