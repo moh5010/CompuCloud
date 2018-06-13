@@ -20,4 +20,21 @@ class ComputerMapper extends Mapper {
       return $this->findEntities($sql, [$id]);
     }
 
+    public function filterComs($filter_sold, $company_name) {
+      $sql = "SELECT * FROM *PREFIX*computers ";
+      if ($filter_sold) {
+        $sql .= "WHERE sold=0";
+        if ($company_name) {
+          $sql .= " AND computer_company = ?";
+          return $this->findEntities($sql, [$company_name]);
+        }
+      }
+      else {
+        if ($company_name) {
+          $sql .= "WHERE computer_company = ?";
+          return $this->findEntities($sql, [$company_name]);
+        }
+      }
+      return $this->findEntities($sql);
+    }
 }

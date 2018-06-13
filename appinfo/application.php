@@ -13,7 +13,8 @@ class Application extends App {
         $container->registerService('PageController', function($c) {
             return new PageController(
                 $c->query('AppName'),
-                $c->query('Request')
+                $c->query('Request'),
+                $c->query('ServerContainer')->getURLGenerator()
             );
         });
         $container->registerService('AuthorStorage', function($c) {

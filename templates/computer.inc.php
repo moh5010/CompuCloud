@@ -8,16 +8,18 @@
       <li class="list-group-item">Hard: <?php p($_["computer"]->getHardCapacity()) ?>GB</li>
       <li class="list-group-item">Price: <?php p($_["computer"]->getPrice()) ?>$</li>
     </ul>
+    <div style="text-align:center ; margin:10px">
     <?php if ($_["computer"]->getSold()) {
       ?>
-      <a href="computers/buy/<?php p($_['computer']->getId()) ?>" class="btn btn-danger">Buy</a>
+      <a href="<?php p($_['url'] . '/buy/' . $_['computer']->getId()) ?>" class="btn btn-danger">Buy</a>
     <?php }
       else {
         ?>
-        <a href="computers/buy/<?php p($_['computer']->getId()) ?>" class="btn btn-secondary">Buy</a>
+        <a href="<?php p($_['url'] . '/buy/' . $_['computer']->getId()) ?>" class="btn btn-secondary">Buy</a>
         <?php
       }
     ?>
+  </div>
 
   </div>
 </div>

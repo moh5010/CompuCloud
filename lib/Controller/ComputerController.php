@@ -2,6 +2,7 @@
  namespace OCA\OwnNotes\Controller;
 
  use OCP\IRequest;
+ use \OCP\IURLGenerator;
  use OCP\AppFramework\Http\TemplateResponse;
  use OCP\AppFramework\Http\DataResponse;
  use OCP\AppFramework\Http\RedirectResponse;
@@ -17,19 +18,21 @@
      private $userId;
      private $storage;
 
-     public function __construct($AppName, IRequest $request, ComputerMapper $mapper, $UserId){
+     public function __construct($AppName, IRequest $request, ComputerMapper $mapper, IURLGenerator $urlGenerator, $UserId){
          parent::__construct($AppName, $request);
 
          $this->mapper = $mapper;
          $this->userId = $UserId;
+         $this->urlGenerator = $urlGenerator;
      }
      /**
       * @NoAdminRequired
       * @NoCSRFRequired
       */
      public function index($message, $warn) {
-         $coms = $this->mapper->findAll();
-         return new TemplateResponse('ownnotes', 'computers', array("computers" => $coms, "message" => $message, "warn" => $warn));
+        $coms = $this->mapper->findAll();
+        $url = $this->urlGenerator->linkToRoute("ownnotes.computer.index");
+        return new TemplateResponse('ownnotes', 'computers', array("computers" => $coms, "message" => $message, "warn" => $warn, "url" => $url));
      }
 
      /**
@@ -39,7 +42,7 @@
      public function add($computer_name, $computer_model, $computer_cpu, $computer_ram, $computer_hard, $computer_price, $computer_image) {
        $computer = new Computer();
 
-       $computer->setComputerCompany($computer_name);
+       $computer->setComputerCompany(strtolower($computer_name));
        $computer->setComputerModel($computer_model);
        $computer->setCpu($computer_cpu);
        $computer->setRam($computer_ram);
@@ -49,7 +52,8 @@
        $computer->setSold(False);
        $id = $this->mapper->insert($computer);
 
-       return new RedirectResponse("/apps/ownnotes/computers?message=Computer added");
+       $url = $this->urlGenerator->linkToRoute("ownnotes.computer.index", array("message" => "Computer added"));
+       return new RedirectResponse($url);
      }
 
      /**
@@ -59,16 +63,35 @@
      public function buy($id) {
          $computers = $this->mapper->findById($id);
          if (count($computers) == 0) {
-           return new RedirectResponse("/apps/ownnotes/computers");
+          $url = $this->urlGenerator->linkToRoute("ownnotes.computer.index");
+          return new RedirectResponse($url);
          }
          $computer = $computers[0];
          if ($computer->getSold() == true) {
-           return new RedirectResponse("/apps/ownnotes/computers?message=Computer Alread Sold&warn=true");
+           if ($this->userId == $computer->getUserId()) {
+            $url = $this->urlGenerator->linkToRoute("ownnotes.computer.index", array("message" => "Computer Already yours", "warn" => "true"));
+            return new RedirectResponse($url);
+           }
+           else {
+            $url = $this->urlGenerator->linkToRoute("ownnotes.computer.index", array("message" => "Computer Already sold", "warn" => "true"));
+            return new RedirectResponse($url);
+           }
+
          }
          $computer->setUserId($this->userId);
          $computer->setSold(true);
          $this->mapper->update($computer);
-         return new RedirectResponse("/apps/ownnotes/computers?message=You bought this computer");
+         $url = $this->urlGenerator->linkToRoute("ownnotes.computer.index", array("message" => "You bought this computer"));
+         return new RedirectResponse($url);
+     }
+     /**
+      * @NoAdminRequired
+      * @NoCSRFRequired
+      */
+     public function search($filter_sold, $company_name) {
+       $url = $this->urlGenerator->linkToRoute("ownnotes.computer.index");
+       $coms = $this->mapper->filterComs($filter_sold, strtolower($company_name));
+       return new TemplateResponse('ownnotes', 'computers', array("computers" => $coms, "message" => $message, "url" => $url));
      }
 
  }
