@@ -1,4 +1,6 @@
+
 <div class="card">
+<img class="card-img-top" src="<?php p($_['computer']->getImage()) ?>" alt="<?php p($_['computer']->getComputerCompany()) ?>" />
   <div class="card-body">
     <h5 class="card-title"><?php p($_["computer"]->getComputerCompany()) ?></h5>
     <ul class="list-group list-group-flush">

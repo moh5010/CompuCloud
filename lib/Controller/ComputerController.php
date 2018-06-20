@@ -48,9 +48,16 @@
        $computer->setRam($computer_ram);
        $computer->setHardCapacity($computer_hard);
        $computer->setPrice($computer_price);
-       $computer->setImage($computer_image);
+       
        $computer->setSold(False);
-       $id = $this->mapper->insert($computer);
+       $root=$this->urlGenerator->getAbsoluteUrl("/");
+       $file = $this->request->getUploadedFile("computer_image");
+       $path = $file["name"];
+       $ext = pathinfo($path, PATHINFO_EXTENSION);
+       $path = "data/" . $this->userId . "/Computers/" . md5($file["name"]) . "." . $ext;
+       move_uploaded_file($file["tmp_name"], $path);
+       $computer->setImage($root . "remote.php/webdav/Computers/" . md5($file["name"]) . "." . $ext);
+       $this->mapper->insert($computer);
 
        $url = $this->urlGenerator->linkToRoute("ownnotes.computer.index", array("message" => "Computer added"));
        return new RedirectResponse($url);

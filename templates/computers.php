@@ -78,9 +78,8 @@ New Computer
             <input name="computer_hard" class="form-control" type="number" required placeholder="entre hard">
             <label>computer_price:</label>
             <input name="computer_price" class="form-control" type="number" required placeholder="entre price">
-            <!--<label>image:</label>
+            <label>image:</label>
             <input name="computer_image" class="form-control" type="file" required placeholder="Select Image">
-          -->
 
           </div>
             <input type="submit" name="OK"value="OK">
