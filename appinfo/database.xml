@@ -103,6 +103,16 @@
             <default>False</default>
             <notnull>true</notnull>
         </field>
+        <field>
+            <name>date_sold</name>
+            <type>date</type>
+            <notnull>false</notnull>
+        </field>
+        <field>
+            <name>date_added</name>
+            <type>date</type>
+            <notnull>false</notnull>
+        </field>
 		</declaration>
 	</table>
 	<table>

@@ -14,6 +14,8 @@ class Computer extends Entity {
     protected $image;
     protected $price;
     protected $userId;
+    protected $dateSold;
+    protected $dateAdded;
     protected $sold;
 
     /*public function jsonSerialize() {
