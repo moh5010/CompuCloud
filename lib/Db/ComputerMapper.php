@@ -15,6 +15,16 @@ class ComputerMapper extends Mapper {
         return $this->findEntities($sql);
     }
 
+    public function findUnsold() {
+      $sql = "SELECT * from *PREFIX*computers WHERE sold=0";
+      return $this->findEntities($sql);
+    }
+
+    public function getSoldToday() {
+      $sql = "SELECT * from *PREFIX*computers where date_sold = CURDATE() AND sold=1";
+      return $this->findEntities($sql);
+    }
+
     public function findById($id) {
       $sql = "SELECT * from *PREFIX*computers WHERE id=?";
       return $this->findEntities($sql, [$id]);

@@ -31,7 +31,12 @@
       */
      public function index($message, $warn) {
         $coms = $this->mapper->findAll();
+        $unsold = $this->mapper->findUnsold();
         $url = $this->urlGenerator->linkToRoute("ownnotes.computer.index");
+        if (count($unsold) < 5) {
+          $message = "Too little computers in database";
+          $warn = true;
+        }
         return new TemplateResponse('ownnotes', 'computers', array("computers" => $coms, "message" => $message, "warn" => $warn, "url" => $url));
      }
 
@@ -48,7 +53,8 @@
        $computer->setRam($computer_ram);
        $computer->setHardCapacity($computer_hard);
        $computer->setPrice($computer_price);
-       
+       $computer->setDateAdded(date("Y/m/d"));
+
        $computer->setSold(False);
        $root=$this->urlGenerator->getAbsoluteUrl("/");
        $file = $this->request->getUploadedFile("computer_image");
@@ -87,6 +93,7 @@
          }
          $computer->setUserId($this->userId);
          $computer->setSold(true);
+         $computer->setDateSold(date("Y/m/d"));
          $this->mapper->update($computer);
          $url = $this->urlGenerator->linkToRoute("ownnotes.computer.index", array("message" => "You bought this computer"));
          return new RedirectResponse($url);
@@ -98,7 +105,16 @@
      public function search($filter_sold, $company_name) {
        $url = $this->urlGenerator->linkToRoute("ownnotes.computer.index");
        $coms = $this->mapper->filterComs($filter_sold, strtolower($company_name));
-       return new TemplateResponse('ownnotes', 'computers', array("computers" => $coms, "message" => $message, "url" => $url));
+       $statsUrl = $this->urlGenerator->linkToRoute("ownnotes.computer.stats");
+       return new TemplateResponse('ownnotes', 'computers', array("computers" => $coms, "message" => $message, "url" => $url, "statsUrl" => $statsUrl));
+     }
+
+     /**
+      * @NoAdminRequired
+      * @NoCSRFRequired
+      */
+     public function stats() {
+       return new TemplateResponse('ownnotes', 'stats');
      }
 
  }

@@ -1,13 +1,14 @@
 <?php
   style("ownnotes", "bootstrap.min");
-  style("ownnotes", "main");
   script('ownnotes', 'jquery-3.2.1.slim.min');
   script('ownnotes', 'popper.min');
   script('ownnotes', 'bootstrap.min');
+  script('ownnotes', 'Chart.min');
+  script("ownnotes", "main");
  ?>
  <div style="background:black;color:white;text-align:center">
    <h6 style="font-size:24px;font-family:Georgia">welcom to our  campany</h6>
-</div>
+</div
 <br><br><br>
 <?php
   print_unescaped($this->inc('search.inc', array('url' => $_["url"])));
@@ -29,6 +30,7 @@
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
 New Computer
 </button>
+<a class="btn btn-primary" href="<?php p($_['statsUrl']) ?>">Sale Statistics</a>
 </div>
   <?php
   if (count($_["computers"]) == 0) {
