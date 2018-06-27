@@ -33,11 +33,12 @@
         $coms = $this->mapper->findAll();
         $unsold = $this->mapper->findUnsold();
         $url = $this->urlGenerator->linkToRoute("ownnotes.computer.index");
+        $urlStats = $this->urlGenerator->linkToRoute("ownnotes.computer.stats");
         if (count($unsold) < 5) {
           $message = "Too little computers in database";
           $warn = true;
         }
-        return new TemplateResponse('ownnotes', 'computers', array("computers" => $coms, "message" => $message, "warn" => $warn, "url" => $url));
+        return new TemplateResponse('ownnotes', 'computers', array("computers" => $coms, "message" => $message, "warn" => $warn, "url" => $url, "statsUrl" => $urlStats));
      }
 
      /**
