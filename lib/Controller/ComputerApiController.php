@@ -19,7 +19,7 @@
     {
       parent::__construct($AppName, $request);
       $this->mapper = $mapper;
-      $this->userId = $UserId;
+      $this->userId = $userId;
     }
 
     private function serializeComputers($coms) {

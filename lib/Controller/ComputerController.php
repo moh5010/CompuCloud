@@ -32,13 +32,16 @@
      public function index($message, $warn) {
         $coms = $this->mapper->findAll();
         $unsold = $this->mapper->findUnsold();
-        $url = $this->urlGenerator->linkToRoute("ownnotes.computer.index");
-        $urlStats = $this->urlGenerator->linkToRoute("ownnotes.computer.stats");
+        $indexUrl = $this->urlGenerator->linkToRoute("ownnotes.page.index");
+        $computerUrl = $this->urlGenerator->linkToRoute("ownnotes.computer.index");
+        $mobileUrl = $this->urlGenerator->linkToRoute("ownnotes.mobile.index");
+        $statsUrl = $this->urlGenerator->linkToRoute("ownnotes.computer.stats");
         if (count($unsold) < 5) {
           $message = "Too little computers in database";
           $warn = true;
         }
-        return new TemplateResponse('ownnotes', 'computers', array("computers" => $coms, "message" => $message, "warn" => $warn, "url" => $url, "statsUrl" => $urlStats));
+        return new TemplateResponse('ownnotes', 'computers', array("computers" => $coms, "message" => $message, "warn" => $warn,
+            "indexUrl" => $indexUrl, "statsUrl" => $statsUrl, "computerUrl" => $computerUrl, "mobileUrl" => $mobileUrl));
      }
 
      /**
@@ -104,10 +107,13 @@
       * @NoCSRFRequired
       */
      public function search($filter_sold, $company_name) {
-       $url = $this->urlGenerator->linkToRoute("ownnotes.computer.index");
-       $coms = $this->mapper->filterComs($filter_sold, strtolower($company_name));
+       $indexUrl = $this->urlGenerator->linkToRoute("ownnotes.page.index");
+       $computerUrl = $this->urlGenerator->linkToRoute("ownnotes.computer.index");
+       $mobileUrl = $this->urlGenerator->linkToRoute("ownnotes.mobile.index");
        $statsUrl = $this->urlGenerator->linkToRoute("ownnotes.computer.stats");
-       return new TemplateResponse('ownnotes', 'computers', array("computers" => $coms, "message" => $message, "url" => $url, "statsUrl" => $statsUrl));
+       $coms = $this->mapper->filterComs($filter_sold, strtolower($company_name));
+       return new TemplateResponse('ownnotes', 'computers', array("computers" => $coms, "message" => $message,
+        "indexUrl" => $indexUrl, 'computerUrl' => $computerUrl, "mobileUrl" => $mobileUrl, "statsUrl" => $statsUrl));
      }
 
      /**
@@ -115,7 +121,12 @@
       * @NoCSRFRequired
       */
      public function stats() {
-       return new TemplateResponse('ownnotes', 'stats');
+       $indexUrl = $this->urlGenerator->linkToRoute("ownnotes.page.index");
+       $computerUrl = $this->urlGenerator->linkToRoute("ownnotes.computer.index");
+       $mobileUrl = $this->urlGenerator->linkToRoute("ownnotes.mobile.index");
+       return new TemplateResponse('ownnotes', 'stats', array(
+         "indexUrl" => $indexUrl, 'computerUrl' => $computerUrl, "mobileUrl" => $mobileUrl
+       ));
      }
 
  }

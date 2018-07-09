@@ -5,13 +5,14 @@
   script('ownnotes', 'bootstrap.min');
   script('ownnotes', 'Chart.min');
   script("ownnotes", "main");
+  print_unescaped($this->inc('navbar.inc'));
  ?>
  <div style="background:black;color:white;text-align:center">
    <h6 style="font-size:24px;font-family:Georgia">welcom to our  campany</h6>
 </div
 <br><br><br>
 <?php
-  print_unescaped($this->inc('search.inc', array('url' => $_["url"])));
+  print_unescaped($this->inc('search.inc', array('url' => $_["computerUrl"])));
   if ($_["message"]) {
     if ($_["warn"]) {
       echo "<div class='alert alert-danger' role='alert'>";
@@ -45,7 +46,7 @@ New Computer
       <?php
     }
     echo "<div class='col-md-3'>";
-    print_unescaped($this->inc('computer.inc', array('computer' => $_["computers"][$i], "url" => $_["url"])));
+    print_unescaped($this->inc('computer.inc', array('computer' => $_["computers"][$i], "url" => $_["computerUrl"])));
     echo "</div>";
     if($i % 4 == 3) {
       echo "</div>";
