@@ -116,7 +116,7 @@
 		</declaration>
 	</table>
 	<table>
-    <name>*dbprefix*mobile</name>
+    <name>*dbprefix*mobiles</name>
     <declaration>
       <field>
         <name>id</name>
@@ -172,7 +172,30 @@
         <name>mobile_image</name>
         <type>string</type>
         <default></default>
-        <notnull>true</notnull>
+        <notnull>false</notnull>
+      </field>
+      <field>
+          <name>user_id</name>
+          <type>text</type>
+          <length>200</length>
+          <default></default>
+          <notnull>true</notnull>
+      </field>
+      <field>
+          <name>sold</name>
+          <type>boolean</type>
+          <default>False</default>
+          <notnull>true</notnull>
+      </field>
+      <field>
+          <name>date_sold</name>
+          <type>date</type>
+          <notnull>false</notnull>
+      </field>
+      <field>
+          <name>date_added</name>
+          <type>date</type>
+          <notnull>false</notnull>
       </field>
 	   </declaration>
 	</table>
